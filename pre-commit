@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+Dir.glob("*.sh").each do |file|
+  script = Pathname.new(file)
+  signed_script = Pathname.new("#{file}.sig")
+  if !signed_script.exist? || script.mtime >= signed_script.mtime
+    puts "Signed files need to be updated, run `update_sigs` from the project root."
+    exit(1)
+  end
+end
